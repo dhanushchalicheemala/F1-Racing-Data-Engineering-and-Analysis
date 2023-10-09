@@ -1,0 +1,29 @@
+CREATE OR  REPLACE TABLE `buoyant-episode-399009.f1_racing_new.F1_Analytics` AS ( 
+SELECT
+    r.raceId, r.year, r.round, r.name AS race_name, r.date, r.time, r.url AS race_url,
+    r.fp1_date, r.fp1_time, r.fp2_date, r.fp2_time, r.fp3_date, r.fp3_time, r.quali_date,
+    r.quali_time, r.sprint_date, r.sprint_time,
+    c.circuitId, c.circuitRef, c.name AS circuit_name, c.location, c.country, c.lat, c.lng, c.alt, c.url AS circuit_url,
+    d.driverId, d.driverRef, d.number AS driver_number, d.code, d.forename, d.surname, d.dob, d.nationality AS driver_nationality, d.url AS driver_url,
+    con.constructorId, con.constructorRef, con.name AS constructor_name, con.nationality AS constructor_nationality, con.url AS constructor_url,
+    ds.points AS driver_standings_points, ds.position AS driver_standings_position, ds.positionText AS driver_position_text, ds.wins AS driver_wins,
+    cs.points AS constructor_standings_points, cs.position AS constructor_standings_position, cs.positionText AS constructor_position_text, cs.wins AS constructor_wins,
+    lt.lap, lt.position AS lap_position, lt.time AS lap_time, lt.milliseconds AS lap_milliseconds,
+    ps.stop, ps.lap AS pitstop_lap, ps.time AS pitstop_time, ps.duration AS pitstop_duration, ps.milliseconds AS pitstop_milliseconds,
+    q.number AS qualifying_number, q.position AS qualifying_position, q.q1, q.q2, q.q3,
+    sr.number AS sprintresults_number, sr.grid, sr.position AS sprintresults_position, sr.positionText AS sprintresults_position_text, sr.positionOrder, sr.points AS sprintresults_points,
+    sr.laps AS sprintresults_laps, sr.time AS sprintresults_time, sr.milliseconds AS sprintresults_milliseconds, sr.fastestLap, sr.fastestLapTime, sr.statusId,
+    s.status
+FROM `buoyant-episode-399009.f1_racing_new.races` r
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.circuit` c ON r.circuitId = c.circuitId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.driver standings` ds ON r.raceId = ds.raceId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.drivers`  d ON ds.driverId = d.driverId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.constructor_standings`  cs ON r.raceId = cs.raceId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.constructors`  con ON cs.constructorId = con.constructorId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.lap times`  lt ON r.raceId = lt.raceId AND d.driverId = lt.driverId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.pit stop`  ps ON r.raceId = ps.raceId AND d.driverId = ps.driverId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.qualifying`  q ON r.raceId = q.raceId AND d.driverId = q.driverId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.sprint results`  sr ON r.raceId = sr.raceId AND d.driverId = sr.driverId
+LEFT JOIN `buoyant-episode-399009.f1_racing_new.status`  s ON sr.statusId = s.statusId);
+
+
