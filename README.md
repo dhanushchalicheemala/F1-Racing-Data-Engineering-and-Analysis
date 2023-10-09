@@ -23,4 +23,4 @@ The dataset consists of all information on the Formula 1 races, drivers, constru
 https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020
 
 ## Architecture Diagram
-<img src="architecture.jpeg">
+<img src="architecture.png">
